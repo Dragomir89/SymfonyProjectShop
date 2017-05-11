@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block navigation %}
+    {{ render(controller('AppBundle:Category:showCategories')) }}
+{% endblock %}
+
+ {% block body %}
+     <h2 style="text-align: center">
+         <a href="{{ path("profileForm") }}">Редактирай профил</a>
+     </h2>
+     <h2 style="text-align: center">
+         <a href="{{ path("my_products", {'id': app.user.id}) }}">Мойте продукти</a>
+     </h2>
+ {% endblock %}

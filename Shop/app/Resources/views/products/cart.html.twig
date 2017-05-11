@@ -5,9 +5,9 @@
 
 {% block body %}
     <div class="col-md-8 col-md-offset-2">
-
-
+        <h2 style="text-align: center"> Количка </h2>
         {% for product in products %}
+
 
             {% if product.quantity >= 1 %}
 
@@ -15,32 +15,27 @@
                     <div class="thumbnail">
                         <img src="http://placehold.it/320x150" alt="">
                         <div class="caption">
-                            {% if product.newPrice %}
-                                <h4 style="color: red; text-decoration: line-through" class="pull-right">Цена: ${{ product.price }}</h4>
-                            {% else %}
-                                <h4  class="pull-right">Цена: ${{ product.price }}</h4>
-                            {% endif %}
-
+                            <h4 class="pull-right">${{ product.price }}</h4>
                             <h4><a href="{{ path("show_current_product", {'id':product.id}) }} ">{{ product.name }}</a>
                             </h4>
-                            {% if product.newPrice %}
-                                <h4 style="color: #6b9311">Нова цена: ${{ product.newPrice }}</h4>
-                                {% else %}
-                                    <h4 style="color: red">Няма промоция</h4>
-                            {% endif %}
+                            <h4 class="pull-right">${{ product.newPrice }}</h4>
+                            <h4>Нова цена: </h4>
                             <p>Количество: {{ product.quantity }}</p>
                             <p>Категория: {{ product.category.name }}</p>
                             <button class="pull-left btn btn-warning" style="display: block">
                                 <a href=" {{ path("show_current_product", {'id':product.id}) }} ">Разгледай</a>
                             </button>
-                            <a href="{{ path("add_to_shopping_cart_process",{'userId': app.user.id, 'productId': product.id}) }}">
-                                <button class="pull-right btn btn-primary">Добави в количката</button>
+                            <a href="{{ path("remove_product_from_cart",{'userId': app.user.id, 'productId': product.id}) }}">
+                                <button class="pull-right btn btn-primary">Изтрии</button>
                             </a>
-                            <p ><br> </p>
+                            <p class="">. </p>
                         </div>
                     </div>
                 </div>
             {% endif %}
+
         {% endfor %}
+
+
     </div>
 {% endblock %}

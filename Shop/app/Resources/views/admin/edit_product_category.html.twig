@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block navigation %}
+    {{ render(controller('AppBundle:Category:showCategories')) }}
+{% endblock %}
+{% block body %}
+
+    <div class="col-md-4 col-md-offset-4">
+
+        <form method="post">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Име на продукта</label>
+                <input type="email" class="form-control" value="{{ product.name }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Категория</label>
+                <input type="text" class="form-control" value="{{ product.category.name }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="exampleSelect1">Всички Категории</label>
+                <select class="form-control" id="exampleSelect1" name="newCategory">
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="btn btn-success" type="submit">Запази новата категория</button>
+        </form>
+    </div>
+{% endblock %}
+
+

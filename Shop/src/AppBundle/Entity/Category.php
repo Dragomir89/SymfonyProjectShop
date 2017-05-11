@@ -33,14 +33,25 @@ class Category
      * @var Product[]|ArrayCollection
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="category")
      */
-
     private $products;
+
+
+
+    /**
+     * @var Promotion[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Promotion", mappedBy="categories")
+     */
+    private $promotions;
+
+
 
 
     public function __construct()
     {
+        $this->promotions = new ArrayCollection();
         $this->products = new ArrayCollection();
     }
+
 
     /**
      * Get id
@@ -91,6 +102,33 @@ class Category
     {
         $this->products = $products;
     }
+
+    /**
+     * @return Promotion[]|ArrayCollection
+     */
+    public function getPromotions()
+    {
+        return $this->promotions;
+    }
+
+    /**
+     * @param Promotion[]|ArrayCollection $promotions
+     */
+    public function setPromotions($promotions)
+    {
+        $this->promotions = $promotions;
+    }
+
+
+    /**
+     * @param Promotion $promotion
+     */
+
+    public function addPromotions($promotion)
+    {
+        $this->promotions->add($promotion);
+    }
+
 
 
 }

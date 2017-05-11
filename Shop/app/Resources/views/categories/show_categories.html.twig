@@ -1,10 +1,28 @@
-{% extends 'base.html.twig' %}
+
 {% block body %}
-    <ul>
-        {% for category in categories %}
-            <li><a href="{{ path("category_products", {'id':category.id})}}">{{ category.name }}</a></li>
-        {% endfor %}
-    </ul>
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+
+            <ul class="nav navbar-nav">
+                <li><a href="{{ path("show_products") }}">Всички</a></li>
+                {% for category in categories %}
+                    <li><a href="{{ path("category_products", {'id':category.id}) }}">{{ category.name }}</a></li>
+                {% endfor %}
+                {% for role in app.user.roles %}
+                    {% if role == "ADMIN" %}
+                        <li><a href="{{ path("editor_panel") }}">EDIT PANEL</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ path("user_panel") }}">Здравей {{ app.user.name }}</a></li>
+                <li> <a href="{{ path("show_cart", {"userId": app.user.id}) }}">Количка</a></li>
+                <li><a href="{{ path('logout') }}">Изход</a></li>
+            </ul>
+        </div>
+    </nav>
 {% endblock %}
 
 

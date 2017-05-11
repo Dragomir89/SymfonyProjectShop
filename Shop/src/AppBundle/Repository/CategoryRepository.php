@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function myTest($test)
+    {
+        dump($test);
+
+        return $this->getEntityManager()->createQuery(
+            'SELECT p FROM AppBundle:Category p WHERE p.id = '.$test['id']
+        )
+            ->getResult();
+    }
 }

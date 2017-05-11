@@ -1,9 +1,7 @@
 <?php
-
 namespace AppBundle\Entity;
-
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Product
  *
@@ -20,14 +18,12 @@ class Product
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-
     /**
      * @var string
      *
@@ -35,12 +31,6 @@ class Product
      */
     private $price;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="newPrice", type="decimal", precision=11, scale=2, nullable=true)
-     */
-    private $newPrice;
 
     /**
      * @var int
@@ -50,11 +40,53 @@ class Product
     private $quantity;
 
     /**
+     * @var boolean
+     * @ORM\Column(name="is_sell", type="boolean")
+     */
+    private $isSell;
+
+    /**
      * @var Category
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="products")
      */
-
     private $category;
+
+    /**
+     * @var Promotion[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Promotion", mappedBy="products")
+     */
+    private $promotions;
+
+    private $newPrice;
+
+    /**
+     * @var Promotion
+     */
+    private $maxPromotion;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="products")
+     */
+    private $user;
+
+    /**
+     * @var User[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="cartProducts")
+     */
+    private $usersCartOwners;
+
+    private $categoryId;
+
+    private $categoryName;
+
+    public function __construct()
+    {
+        $this->promotions = new ArrayCollection();
+        $this->usersCartOwners = new ArrayCollection();
+        $this->categoryName = $this->category ? $this->category->getName() : null;
+        $this->categoryId = $this->category ? $this->category->getId() : null;
+    }
 
 
     /**
@@ -66,7 +98,6 @@ class Product
     {
         return $this->id;
     }
-
     /**
      * Set name
      *
@@ -77,10 +108,8 @@ class Product
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
-
     /**
      * Get name
      *
@@ -90,7 +119,6 @@ class Product
     {
         return $this->name;
     }
-
     /**
      * Set price
      *
@@ -101,10 +129,8 @@ class Product
     public function setPrice($price)
     {
         $this->price = $price;
-
         return $this;
     }
-
     /**
      * Get price
      *
@@ -114,31 +140,6 @@ class Product
     {
         return $this->price;
     }
-
-    /**
-     * Set newPrice
-     *
-     * @param string $newPrice
-     *
-     * @return Product
-     */
-    public function setNewPrice($newPrice)
-    {
-        $this->newPrice = $newPrice;
-
-        return $this;
-    }
-
-    /**
-     * Get newPrice
-     *
-     * @return string
-     */
-    public function getNewPrice()
-    {
-        return $this->newPrice;
-    }
-
     /**
      * Set quantity
      *
@@ -149,10 +150,8 @@ class Product
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
-
         return $this;
     }
-
     /**
      * Get quantity
      *
@@ -162,7 +161,6 @@ class Product
     {
         return $this->quantity;
     }
-
     /**
      * @return mixed
      */
@@ -170,7 +168,6 @@ class Product
     {
         return $this->category;
     }
-
     /**
      * @param Category $category
      */
@@ -179,7 +176,126 @@ class Product
         $this->category = $category;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCategoryId()
+    {
+        return $this->getCategory()->getId();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategoryName()
+    {
+        return $this->getCategory()->getName();
+    }
+
+
+
+
+    /**
+     * @return Promotion[]|ArrayCollection
+     */
+    public function getPromotions()
+    {
+        return $this->promotions;
+    }
+    /**
+     * @param Promotion[]|ArrayCollection $promotions
+     */
+    public function setPromotions($promotions)
+    {
+        $this->promotions = $promotions;
+    }
+    public function addPromotion($promotion){
+        $this->promotions->add($promotion);
+    }
+    public function removePromotion($promotion){
+        $this->promotions->removeElement($promotion);
+    }
+    /**
+     * @return mixed
+     */
+    public function getNewPrice()
+    {
+        return $this->newPrice;
+    }
+    /**
+     * @param mixed $newPrice
+     */
+    public function setNewPrice($newPrice)
+    {
+        $this->newPrice = $newPrice;
+    }
+    /**
+     * @return Promotion
+     */
+    public function getMaxPromotion()
+    {
+        return $this->maxPromotion;
+    }
+    /**
+     * @param Promotion $maxPromotion
+     */
+    public function setMaxPromotion($maxPromotion)
+    {
+        $this->maxPromotion = $maxPromotion;
+    }
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user->getName();
+    }
+    /**
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+    /**
+     * @return User[]|ArrayCollection
+     */
+    public function getUsersCartOwners()
+    {
+        return $this->usersCartOwners;
+    }
+    /**
+     * @param User[]|ArrayCollection $usersCartOwners
+     */
+    public function setUsersCartOwners($usersCartOwners)
+    {
+        $this->usersCartOwners = $usersCartOwners;
+    }
+    /**
+     * @param User
+     */
+    public function addUsersCartOwner($user)
+    {
+        $this->usersCartOwners->add($user);
+    }
+    public function removeUsersFromCarts()
+    {
+        $this->setUsersCartOwners(new ArrayCollection());
+    }
+    /**
+     * @return mixed
+     */
+    public function getIsSell()
+    {
+        return $this->isSell;
+    }
+    /**
+     * @param mixed $isSell
+     */
+    public function setIsSell($isSell)
+    {
+        $this->isSell = $isSell;
+    }
 
 
 }
-

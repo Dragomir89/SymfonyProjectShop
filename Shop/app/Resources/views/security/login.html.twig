@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+    <div style="width: 400px; margin: 0 auto; top: 20px">
+        <h2>Login</h2>
+        <form method="post">
+            Name: <input type="text" name="_username"/>
+            <br>
+            Password: <input type="password" name="_password"/>
+            <br>
+            <input type="submit" value="Вход"/>
+            <button class="btn btn-success"><a href=" {{ path("register_form") }} ">Регистрация</a> </button>
+        </form>
+    </div>
+{% endblock %}
+

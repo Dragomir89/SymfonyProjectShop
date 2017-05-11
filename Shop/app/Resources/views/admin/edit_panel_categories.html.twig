@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block navigation %}
+    {{ render(controller('AppBundle:Category:showCategories')) }}
+{% endblock %}
+{% block body %}
+
+    <div class="jumbotron" style="border-radius: 5px; width: 600px; margin: 0 auto; padding: 10px">
+        <h2 style="text-align: center; top:60px;"> Редактирай Категории </h2>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Име</th>
+                <th colspan="3">Опции</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td>
+                        {{ category.name }}
+                    </td>
+                    <td>
+                        {#{{ path("category_promotions_manage", {'id':category.id})}}#}
+                        <a href="{{ path("edit_category_name_form", {'id':category.id}) }}">
+                            <button class="btn btn-primary btn-md">
+                                Име
+                            </button>
+                        </a>
+
+                        <a href="{{ path("category_promotions_manage", {'id': category.id}) }}">
+                            <button class="btn btn-success btn-md">
+                                Промоции
+                            </button>
+                        </a>
+                        <a href="{{ path("remove_category", {"id": category.id }) }}"
+                           data-toggle="tooltip"
+                           title="Warning! If you delete the category, all products which are from this category will be deleted too">
+                            <button class="btn btn-danger btn-md">
+                                Изтрии
+                            </button>
+                        </a>
+
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+{% endblock %}

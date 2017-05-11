@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function checkAndDeleteProductFromCarts($product)
+    {
+        return $this->getEntityManager()->createQuery(
+            //"DELETE from 'cart_products' WHERE product_id = ". $product->getId()
+            "DELETE from AppBundle:Products:usersCartOwners  WHERE product_id = ". $product->getId()
+        )
+            ->getResult();
+    }
 }

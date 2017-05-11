@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block navigation %}
+    {{ render(controller('AppBundle:Category:showCategories')) }}
+{% endblock %}
+{% block body %}
+    {#{{ form(productForm) }}#}
+    <div class="col-md-4 col-md-offset-4">
+
+        {{ form_start(productForm) }}
+        {{ form_row(productForm.name, {'label': 'Име'}) }}
+        {{ form_row(productForm.price, {'label': 'Цена'}) }}
+        {{ form_row(productForm.quantity, {'label': 'Количество'})  }}
+        <div class="form-group">
+            <label> Категории </label>
+            <select name="product[categoryId]" class="form-control">
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        {{ form_row(productForm.isSell, {'label': 'Продава се'})  }}
+        <button class="btn btn-success" type="submit">Запази</button>
+        {{ form_end(productForm) }}
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block navigation %}
+    {{ render(controller('AppBundle:Category:showCategories')) }}
+{% endblock %}
+
+{% block body %}
+    {#<div class="well col-md-4 col-md-offset-4">#}
+    {#<h1>Name: {{ product.name }}</h1>#}
+    {#<h3>Price: {{ product.price }}</h3>#}
+    {#{% if product.newPrice %}#}
+    {#<h3>Discount price: {{ product.newPrice }}</h3>#}
+    {#{% endif %}#}
+
+    {#<h3>Quantity: {{ product.quantity }}</h3>#}
+
+    {#{% if product.maxPromotion %}#}
+    {#<h3>Promotion: {{ product.maxPromotion.name }}</h3>#}
+    {#<button class="btn btn-success">#}
+    {#<a href="{{ path("show_promotion", {'id': product.maxPromotion.id}) }} "> Виж промоцията </a>#}
+    {#</button>#}
+    {#<div>#}
+    {#<label>Количество</label>#}
+    {#<input class="form-control" type="number" value="1" name="quantity">#}
+    {#<a href=" {{ path('buy_product_process',{'productId':product.id, 'userId': app.user.id, 'promotionId':product.maxPromotion.id} ) }} ">#}
+    {#<button type="submit" class="btn btn-primary">Купи</button>#}
+    {#</a>#}
+    {#</div>#}
+    {#{% else %}#}
+    {#<div>#}
+    {#<label>Количество</label>#}
+    {#<input class="form-control" type="number" value="1" name="quantity">#}
+    {#<a href=" {{ path('buy_product_process',{'productId':product.id, 'userId': app.user.id } ) }} ">#}
+    {#<button type="submit" class="btn btn-primary">Купи</button>#}
+    {#</a>#}
+    {#</div>#}
+    {#{% endif %}#}
+    {#</div>#}
+    <div class="well col-md-4 col-md-offset-4">
+
+        {{ form_start(productForm, {'action': path('buy_product_process'), 'method': 'POST'}) }}
+        {{ form_widget(productForm) }}
+        <input  required="required" type="number" name="buy_product[count]">
+        <input  type="hidden" name="buy_product[currentUserId]" value={{ app.user.id }}>
+        <input  type="hidden" name="buy_product[currentUserName]" value={{ app.user.name }}>
+        {{ form_end(productForm) }}
+
+    </div>
+{% endblock %}
+
+
+
+

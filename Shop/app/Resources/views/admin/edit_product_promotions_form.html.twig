@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+{% block navigation %}
+    {{ render(controller('AppBundle:Category:showCategories')) }}
+{% endblock %}
+{% block body %}
+
+    <div class="col-md-4 col-md-offset-4">
+
+
+        <div class="jumbotron">
+            <h2 style="text-align: center">{{ product.name }}</h2>
+            <h4><a href="{{ path("edit_panel_products") }}"><< Към продуктите</a></h4>
+            <table class="table">
+                <tr>
+                    <th>Име на промоция</th>
+                    <th>Начална дата</th>
+                    <th>Крайна дата</th>
+                    <th>Отстъока %</th>
+                    <th></th>
+                </tr>
+                {% for promo in productPromotions %}
+                    <tr>
+                        <td>{{ promo.name }}</td>
+                        <td>{{ promo.startDate|date("m/d/Y") }}</td>
+                        <td>{{ promo.endDate|date("m/d/Y") }}</td>
+                        <td>{{ promo.discount }}</td>
+                        <td>
+                            {% if promo %}
+                                {#{{ dump(product.id) }}#}
+                                <a href="{{ path("removePromoFromProduct", {"prodId":product.id, "promoId":promo.id}) }}">
+                                    <button class="btn btn-danger btn-xs">Изтрии</button>
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+
+        <div class="jumbotron">
+            <h2 style="text-align: center">Други промоции</h2>
+            <table class="table">
+                <tr>
+                    <th>Име на промоция</th>
+                    <th>Начална дата</th>
+                    <th>Крайна дата</th>
+                    <th>Отстъока %</th>
+                    <th></th>
+                </tr>
+                {% for promo in otherPromotions %}
+                    <tr>
+                        <td>{{ promo.name }}</td>
+                        <td>{{ promo.startDate|date("m/d/Y") }}</td>
+                        <td>{{ promo.endDate|date("m/d/Y") }}</td>
+                        <td>{{ promo.discount }}</td>
+                        {#@Route("/editPanel/product/{prodId}/promotion/{promoId}", name="addPromoToProduct")#}
+                        <td>
+                            <a href="{{ path("addPromoToProduct", {"prodId":product.id, "promoId":promo.id}) }}">
+                                <button class="btn btn-success btn-xs">Добави</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+

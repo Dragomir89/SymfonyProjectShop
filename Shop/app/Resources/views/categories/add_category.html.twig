@@ -1,5 +1,15 @@
-<h2>Add category</h2>
+{% extends 'base.html.twig' %}
+{% block navigation %}
+    {{ render(controller('AppBundle:Category:showCategories')) }}
+{% endblock %}
+{% block body %}
+    <div style="width: 300px;margin: 0 auto">
+        <h2 style="text-align: center">Категория</h2>
 
-{{ form_start(categoryForm) }}
-{{ form(categoryForm) }}
-{{ form_end(categoryForm) }}
+        {{ form_start(categoryForm) }}
+        {{ form_row(categoryForm.name, {"label": "Име"}) }}
+        {{ form_end(categoryForm) }}
+
+    </div>
+
+{% endblock %}

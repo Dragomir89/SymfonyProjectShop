@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block navigation %}
+    {{ render(controller('AppBundle:Category:showCategories')) }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="col-md-8 col-md-offset-2">
+
+        {% for product in products %}
+
+            {% if product.quantity >= 1 %}
+
+                <div class="col-sm-4 col-lg-4 col-md-4">
+                    <div class="thumbnail">
+                        <img src="http://placehold.it/320x150" alt="">
+                        <div class="caption">
+                            {% if product.price %}
+                                <h4 class="pull-right">Цена: ${{ product.price }}</h4>
+                            {% else %}
+                                {#<h4 class="pull-right">Цена: <b>няма</b></h4>#}
+                            {% endif %}
+                            <h4><a href="{{ path("show_current_product", {'id':product.id}) }} ">{{ product.name }}</a>
+                            </h4>
+
+                            <p>Количество: {{ product.quantity }}</p>
+                            <p>Категория: {{ product.category.name }}</p>
+
+                            {% if product.isSell %}
+                                <p><b>Провава се</b></p>
+                            {% else %}
+                                <p><b>Не се продава</b></p>
+                            {% endif %}
+                            <p>
+                                <a href="{{ path("edit_user_product_form",{'userId': app.user.id, 'productId': product.id}) }}">
+                                    <button class="pull-left btn btn-primary">Редактирай</button>
+                                </a>
+                            </p>
+                            <p><br></p>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+
+    </div>
+
+
+{% endblock %}
+

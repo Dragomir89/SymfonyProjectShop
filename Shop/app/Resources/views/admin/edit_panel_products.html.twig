@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{% block navigation %}
+    {{ render(controller('AppBundle:Category:showCategories')) }}
+{% endblock %}
+{% block body %}
+
+    <div class="jumbotron" style="width:980px; margin: 0 auto">
+
+        <h2 style="text-align: center">Продукти</h2>
+
+        <table class="table">
+            <tr>
+                <th>Име на продукт</th>
+                <th>Категория</th>
+                <th>Цена</th>
+                <th>Собственик</th>
+                <th>Колочество</th>
+                <th>Редактирай</th>
+                <th>Редактирай</th>
+                <th>Добави/изтрии</th>
+                <th>изтрии продукт</th>
+            </tr>
+
+            {% for category in categories %}
+
+                {% for product in category.products %}
+
+                    {#{{ dump(product) }}#}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ category.name }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.user }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>
+                            <a href="{{ path("edit_product_price_qty_form", {"id":product.id}) }}">
+                                <button class="btn-primary btn-xs">количество / цена</button>
+                            </a>
+                        </td>
+                        <td>
+                            {% if product.user != "softuniShop" %}
+                                Частен продукт
+                            {% else %}
+                            <a href="{{ path("edit_product_promotions_form", {"id": product.id}) }}">
+                                <button class="btn-success btn-xs">промоция</button>
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path("edit_product_category", {"id": product.id}) }}">
+                                <button class="btn-success btn-xs">категория</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href=" {{ path("remove_product", {"id": product.id}) }} ">
+                            <button class="btn-danger btn-xs">изтрии</button>
+                            </a>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+            {% endfor %}
+
+        </table>
+    </div>
+
+
+
+
+{% endblock %}
+

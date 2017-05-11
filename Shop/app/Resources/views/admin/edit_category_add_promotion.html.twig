@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+{% block navigation %}
+    {{ render(controller('AppBundle:Category:showCategories')) }}
+{% endblock %}
+
+{% block body %}
+    <div class="jumbotron" style="width: 800px; padding: 20px;  margin: 0 auto">
+
+        <a href="{{ path("edit_panel_categories") }}">
+            <button class="btn btn-primary btn-xs"><< Към категориите</button>
+        </a>
+        <h2>Категория: {{ category.name }}</h2>
+
+
+        <h3>Промоции на категорията:</h3>
+        <table class="table" cellpadding="5" cellspacing="0" border="2" style="border-radius: 5px">
+            <tr>
+                <th>Име на промоцията</th>
+                <th>Начална дата</th>
+                <th>Ктайна дата</th>
+                <th>Отстъпка %</th>
+                <th>Опции</th>
+            </tr>
+
+            {% for promotion in category.promotions %}
+                <tr>
+                    <td>{{ promotion.name }}</td>
+                    <td>{{ promotion.startDate|date("m/d/Y") }}</td>
+                    <td>{{ promotion.endDate|date("m/d/Y") }}</td>
+                    <td>{{ promotion.discount }}</td>
+                    <td>
+                        <button class="btn btn-danger btn-xs"
+                                data-toggle="tooltip" data-placement="right" title="Tooltip on right">
+                            <a href=" {{ path("promotion_remove_category",{'categId': category.id, 'promoId': promotion.id}) }} ">
+                                Изтрии
+                            </a>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        {% if  promotions %}
+            <h3>All available promotions:</h3>
+
+            <table class="table" cellpadding="5" cellspacing="0" border="2" style="border-radius: 5px">
+                <tr>
+                    <th>Име на промоцията</th>
+                    <th>Начална дата</th>
+                    <th>Ктайна дата</th>
+                    <th>Отстъпка %</th>
+                    <th>Опции</th>
+                </tr>
+                {% for promotion in promotions %}
+
+
+                    <tr>
+                        <td>{{ promotion.name }}</td>
+                        <td>{{ promotion.startDate|date("m/d/Y") }}</td>
+                        <td>{{ promotion.endDate|date("m/d/Y") }}</td>
+                        <td>{{ promotion.discount }}</td>
+                        <td>
+                            <button class="btn-primary">
+                                <a href="{{ path("category_add_promotion_process",
+                                {'categId': category.id, 'promoId': promotion.id}) }}">
+                                    Добави
+                                </a>
+                            </button></td>
+                    </tr>
+
+                {% endfor %}
+            </table>
+
+
+        {% endif %}
+    </div>
+{% endblock %}
+

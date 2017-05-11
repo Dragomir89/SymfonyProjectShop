@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+{% block navigation %}
+    {{ render(controller('AppBundle:Category:showCategories')) }}
+{% endblock %}
+{% block body %}
+
+    <div class="well col-md-6 col-md-offset-3">
+    <h2 style="text-align: center" >Промоции</h2>
+
+    <table cellspacing="0" cellpadding="5" border="1px" class="table">
+        <thead>
+            <tr>
+                <th>Име</th>
+                <th>Отстъпка %</th>
+                <th>Начало</th>
+                <th>Край</th>
+                <th>Валидна</th>
+                <th colspan="2">Опции</th>
+            </tr>
+        </thead>
+
+        {% for promotion in promotions %}
+            <tr>
+                <td>{{ promotion.name }}</td>
+                <td>{{ promotion.discount }}</td>
+                <td>{{ promotion.startDate|date("m/d/Y") }}</td>
+                <td>{{ promotion.endDate|date("m/d/Y") }}</td>
+                {% if promotion.isValid %}
+                    <td>Да</td>
+                {% endif %}
+                {% if not promotion.isValid %}
+                    <td>Не</td>
+                {% endif %}
+
+                <td>
+                    <button class="btn btn-primary">
+                        <a href="{{ path("promotion_edit_form", {'id':promotion.id}) }} ">Редактирай </a>
+                    </button>
+                </td>
+
+                <td><a href="{{ path("remove_promotion", {'id':promotion.id}) }}">
+                        <button class="btn btn-danger">Изтрии</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
